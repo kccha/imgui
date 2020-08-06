@@ -877,8 +877,15 @@ static void             RenderWindowTitleBarContents(ImGuiWindow* window, const 
 //      And then define MyImGuiTLS in one of your cpp file. Note that thread_local is a C++11 keyword, earlier C++ uses compiler-specific keyword.
 //    - Future development aim to make this context pointer explicit to all calls. Also read https://github.com/ocornut/imgui/issues/586
 //    - If you need a finite number of contexts, you may compile and use multiple instances of the ImGui code from different namespace.
+
+#ifdef IMGUI_UBER_GLOBAL
+imgui_globals* gImGuiUber;
+#endif
+
+#ifndef IMGUI_UBER_GLOBAL
 #ifndef GImGui
 ImGuiContext*   GImGui = NULL;
+#endif
 #endif
 
 // Memory Allocator functions. Use SetAllocatorFunctions() to change them.
@@ -892,10 +899,20 @@ static void*   MallocWrapper(size_t size, void* user_data)    { IM_UNUSED(user_d
 static void    FreeWrapper(void* ptr, void* user_data)        { IM_UNUSED(user_data); IM_UNUSED(ptr); IM_ASSERT(0); }
 #endif
 
+#ifndef IMGUI_UBER_GLOBAL
 static void*  (*GImAllocatorAllocFunc)(size_t size, void* user_data) = MallocWrapper;
 static void   (*GImAllocatorFreeFunc)(void* ptr, void* user_data) = FreeWrapper;
 static void*    GImAllocatorUserData = NULL;
+#endif
 
+#ifdef IMGUI_UBER_GLOBAL
+void InitImGuiUber(imgui_globals* uber)
+{
+	gImGuiUber = uber;
+	GImAllocatorAllocFunc = MallocWrapper;
+	GImAllocatorFreeFunc = FreeWrapper;
+}
+#endif
 //-----------------------------------------------------------------------------
 // [SECTION] USER FACING STRUCTURES (ImGuiStyle, ImGuiIO)
 //-----------------------------------------------------------------------------
