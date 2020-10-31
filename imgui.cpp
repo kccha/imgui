@@ -3921,6 +3921,41 @@ void ImGui::Initialize(ImGuiContext* context)
     g.Initialized = true;
 }
 
+void ImGui::Reinitialize(ImGuiContext* context)
+{
+    ImGuiContext& g = *context;
+		g.SettingsHandlers.clear();
+
+    // Add .ini handle for ImGuiWindow type
+    {
+        ImGuiSettingsHandler ini_handler;
+        ini_handler.TypeName = "Window";
+        ini_handler.TypeHash = ImHashStr("Window");
+        ini_handler.ClearAllFn = WindowSettingsHandler_ClearAll;
+        ini_handler.ReadOpenFn = WindowSettingsHandler_ReadOpen;
+        ini_handler.ReadLineFn = WindowSettingsHandler_ReadLine;
+        ini_handler.ApplyAllFn = WindowSettingsHandler_ApplyAll;
+        ini_handler.WriteAllFn = WindowSettingsHandler_WriteAll;
+        g.SettingsHandlers.push_back(ini_handler);
+    }
+
+#ifdef IMGUI_HAS_TABLE
+    // Add .ini handle for ImGuiTable type
+    {
+        ImGuiSettingsHandler ini_handler;
+        ini_handler.TypeName = "Table";
+        ini_handler.TypeHash = ImHashStr("Table");
+        ini_handler.ReadOpenFn = TableSettingsHandler_ReadOpen;
+        ini_handler.ReadLineFn = TableSettingsHandler_ReadLine;
+        ini_handler.WriteAllFn = TableSettingsHandler_WriteAll;
+        g.SettingsHandlers.push_back(ini_handler);
+    }
+#endif // #ifdef IMGUI_HAS_TABLE
+
+#ifdef IMGUI_HAS_DOCK
+#endif // #ifdef IMGUI_HAS_DOCK
+}
+
 // This function is merely here to free heap allocations.
 void ImGui::Shutdown(ImGuiContext* context)
 {
