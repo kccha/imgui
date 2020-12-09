@@ -130,8 +130,8 @@ namespace IMGUI_STB_NAMESPACE
 
 #ifndef STB_TRUETYPE_IMPLEMENTATION                         // in case the user already have an implementation in the _same_ compilation unit (e.g. unity builds)
 #ifndef IMGUI_DISABLE_STB_TRUETYPE_IMPLEMENTATION
-// #define STBTT_malloc(x,u)   ((void)(u), IM_ALLOC(x))
-// #define STBTT_free(x,u)     ((void)(u), IM_FREE(x))
+#define STBTT_malloc(x,u)   ((void)(u), IM_ALLOC(x))
+#define STBTT_free(x,u)     ((void)(u), IM_FREE(x))
 #define STBTT_assert(x)     do { IM_ASSERT(x); } while(0)
 #define STBTT_fmod(x,y)     ImFmod(x,y)
 #define STBTT_sqrt(x)       ImSqrt(x)

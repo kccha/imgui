@@ -245,7 +245,6 @@ namespace ImGui
     IMGUI_API ImGuiContext* GetCurrentContext();
     IMGUI_API void          SetCurrentContext(ImGuiContext* ctx);
 
-	  IMGUI_API void Reinitialize(ImGuiContext* context);
     // Main
     IMGUI_API ImGuiIO&      GetIO();                                    // access the IO structure (mouse/keyboard/gamepad inputs, time, various configuration options/flags)
     IMGUI_API ImGuiStyle&   GetStyle();                                 // access the Style structure (colors, sizes). Always use PushStyleCol(), PushStyleVar() to modify style mid-frame!
@@ -2423,87 +2422,3 @@ struct ImFont
 #endif
 
 #endif // #ifndef IMGUI_DISABLE
-
-
-#define IMGUI_UBER_GLOBAL 1
-#ifdef IMGUI_UBER_GLOBAL
-
-struct FrameResources
-{
-    struct ID3D12Resource*     IndexBuffer;
-    struct ID3D12Resource*     VertexBuffer;
-    int                 IndexBufferSize;
-    int                 VertexBufferSize;
-};
-
-struct imgui_globals
-{
-  ImGuiContext* g_GImGui = nullptr;
-  void* (*g_GImAllocatorAllocFunc)(size_t size, void* user_data) = nullptr;
-  void (*g_GImAllocatorFreeFunc)(void* ptr, void* user_data) = nullptr;
-  void* g_GImAllocatorUserData = nullptr;
-	
-	HWND g_hWnd = NULL;
-	INT64 g_Time = 0;
-	INT64 g_TicksPerSecond = 0;
-	ImGuiMouseCursor g_LastMouseCursor = ImGuiMouseCursor_COUNT;
-	bool g_HasGamepad = false;
-	bool g_WantUpdateHasGamepad = true;
-// DirectX data
-	struct ID3D12Device*                g_pd3dDevice = NULL;
-	struct ID3D12RootSignature*         g_pRootSignature = NULL;
-	struct ID3D12PipelineState*         g_pPipelineState = NULL;
-	DXGI_FORMAT                  g_RTVFormat = DXGI_FORMAT_UNKNOWN;
-	struct ID3D12Resource*              g_pFontTextureResource = NULL;
-	struct D3D12_CPU_DESCRIPTOR_HANDLE  g_hFontSrvCpuDescHandle = {};
-	struct D3D12_GPU_DESCRIPTOR_HANDLE  g_hFontSrvGpuDescHandle = {};
-	FrameResources*  g_pFrameResources = NULL;
-	UINT             g_numFramesInFlight = 0;
-	UINT             g_frameIndex = UINT_MAX;
-};
-
-extern imgui_globals* gImGuiUber;
-#define GImGui (gImGuiUber->g_GImGui)
-#define GImAllocatorAllocFunc (gImGuiUber->g_GImAllocatorAllocFunc)
-#define GImAllocatorFreeFunc (gImGuiUber->g_GImAllocatorFreeFunc)
-#define GImAllocatorUserData (gImGuiUber->g_GImAllocatorUserData)
-
-#define g_hWnd (gImGuiUber->g_hWnd)
-#define g_Time (gImGuiUber->g_Time)
-#define g_TicksPerSecond (gImGuiUber->g_TicksPerSecond)
-#define g_LastMouseCursor (gImGuiUber->g_LastMouseCursor)
-#define g_HasGamepad (gImGuiUber->g_HasGamepad)
-#define g_WantUpdateHasGamepad (gImGuiUber->g_WantUpdateHasGamepad)
-
-#define g_pd3dDevice (gImGuiUber->g_pd3dDevice)
-#define g_pRootSignature (gImGuiUber->g_pRootSignature)
-#define g_pPipelineState (gImGuiUber->g_pPipelineState)
-#define g_RTVFormat (gImGuiUber->g_RTVFormat)
-#define g_pFontTextureResource (gImGuiUber->g_pFontTextureResource)
-#define g_hFontSrvCpuDescHandle (gImGuiUber->g_hFontSrvCpuDescHandle)
-#define g_hFontSrvGpuDescHandle (gImGuiUber->g_hFontSrvGpuDescHandle)
-#define g_pFrameResources (gImGuiUber->g_pFrameResources)
-#define g_numFramesInFlight (gImGuiUber->g_numFramesInFlight)
-#define g_frameIndex (gImGuiUber->g_frameIndex)
-// DirectX data
-// static ID3D12Device*                g_pd3dDevice = NULL;
-// static ID3D12RootSignature*         g_pRootSignature = NULL;
-// static ID3D12PipelineState*         g_pPipelineState = NULL;
-// static DXGI_FORMAT                  g_RTVFormat = DXGI_FORMAT_UNKNOWN;
-// static ID3D12Resource*              g_pFontTextureResource = NULL;
-// static D3D12_CPU_DESCRIPTOR_HANDLE  g_hFontSrvCpuDescHandle = {};
-// static D3D12_GPU_DESCRIPTOR_HANDLE  g_hFontSrvGpuDescHandle = {};
-
-// struct FrameResources
-// {
-//     ID3D12Resource*     IndexBuffer;
-//     ID3D12Resource*     VertexBuffer;
-//     int                 IndexBufferSize;
-//     int                 VertexBufferSize;
-// };
-// static FrameResources*  g_pFrameResources = NULL;
-// static UINT             g_numFramesInFlight = 0;
-// static UINT             g_frameIndex = UINT_MAX;
-
-void InitImGuiUber(imgui_globals* uber);
-#endif

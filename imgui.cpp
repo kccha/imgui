@@ -877,15 +877,8 @@ static void             RenderWindowTitleBarContents(ImGuiWindow* window, const 
 //      And then define MyImGuiTLS in one of your cpp file. Note that thread_local is a C++11 keyword, earlier C++ uses compiler-specific keyword.
 //    - Future development aim to make this context pointer explicit to all calls. Also read https://github.com/ocornut/imgui/issues/586
 //    - If you need a finite number of contexts, you may compile and use multiple instances of the ImGui code from different namespace.
-
-#ifdef IMGUI_UBER_GLOBAL
-imgui_globals* gImGuiUber;
-#endif
-
-#ifndef IMGUI_UBER_GLOBAL
 #ifndef GImGui
 ImGuiContext*   GImGui = NULL;
-#endif
 #endif
 
 // Memory Allocator functions. Use SetAllocatorFunctions() to change them.
@@ -899,20 +892,10 @@ static void*   MallocWrapper(size_t size, void* user_data)    { IM_UNUSED(user_d
 static void    FreeWrapper(void* ptr, void* user_data)        { IM_UNUSED(user_data); IM_UNUSED(ptr); IM_ASSERT(0); }
 #endif
 
-#ifndef IMGUI_UBER_GLOBAL
 static void*  (*GImAllocatorAllocFunc)(size_t size, void* user_data) = MallocWrapper;
 static void   (*GImAllocatorFreeFunc)(void* ptr, void* user_data) = FreeWrapper;
 static void*    GImAllocatorUserData = NULL;
-#endif
 
-#ifdef IMGUI_UBER_GLOBAL
-void InitImGuiUber(imgui_globals* uber)
-{
-	gImGuiUber = uber;
-	GImAllocatorAllocFunc = MallocWrapper;
-	GImAllocatorFreeFunc = FreeWrapper;
-}
-#endif
 //-----------------------------------------------------------------------------
 // [SECTION] USER FACING STRUCTURES (ImGuiStyle, ImGuiIO)
 //-----------------------------------------------------------------------------
@@ -3921,41 +3904,6 @@ void ImGui::Initialize(ImGuiContext* context)
 #endif // #ifdef IMGUI_HAS_DOCK
 
     g.Initialized = true;
-}
-
-void ImGui::Reinitialize(ImGuiContext* context)
-{
-    ImGuiContext& g = *context;
-		g.SettingsHandlers.clear();
-
-    // Add .ini handle for ImGuiWindow type
-    {
-        ImGuiSettingsHandler ini_handler;
-        ini_handler.TypeName = "Window";
-        ini_handler.TypeHash = ImHashStr("Window");
-        ini_handler.ClearAllFn = WindowSettingsHandler_ClearAll;
-        ini_handler.ReadOpenFn = WindowSettingsHandler_ReadOpen;
-        ini_handler.ReadLineFn = WindowSettingsHandler_ReadLine;
-        ini_handler.ApplyAllFn = WindowSettingsHandler_ApplyAll;
-        ini_handler.WriteAllFn = WindowSettingsHandler_WriteAll;
-        g.SettingsHandlers.push_back(ini_handler);
-    }
-
-#ifdef IMGUI_HAS_TABLE
-    // Add .ini handle for ImGuiTable type
-    {
-        ImGuiSettingsHandler ini_handler;
-        ini_handler.TypeName = "Table";
-        ini_handler.TypeHash = ImHashStr("Table");
-        ini_handler.ReadOpenFn = TableSettingsHandler_ReadOpen;
-        ini_handler.ReadLineFn = TableSettingsHandler_ReadLine;
-        ini_handler.WriteAllFn = TableSettingsHandler_WriteAll;
-        g.SettingsHandlers.push_back(ini_handler);
-    }
-#endif // #ifdef IMGUI_HAS_TABLE
-
-#ifdef IMGUI_HAS_DOCK
-#endif // #ifdef IMGUI_HAS_DOCK
 }
 
 // This function is merely here to free heap allocations.

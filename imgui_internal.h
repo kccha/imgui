@@ -34,8 +34,6 @@ Index of this file:
 
 #pragma once
 #ifndef IMGUI_DISABLE
-#undef Min
-#undef Max
 
 //-----------------------------------------------------------------------------
 // [SECTION] Header mess

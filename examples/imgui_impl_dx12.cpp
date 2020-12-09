@@ -35,7 +35,6 @@
 #pragma comment(lib, "d3dcompiler") // Automatically link with d3dcompiler.lib as we are using D3DCompile() below.
 #endif
 
-#ifndef IMGUI_UBER_GLOBAL
 // DirectX data
 static ID3D12Device*                g_pd3dDevice = NULL;
 static ID3D12RootSignature*         g_pRootSignature = NULL;
@@ -55,7 +54,6 @@ struct FrameResources
 static FrameResources*  g_pFrameResources = NULL;
 static UINT             g_numFramesInFlight = 0;
 static UINT             g_frameIndex = UINT_MAX;
-#endif
 
 template<typename T>
 static void SafeRelease(T*& res)
