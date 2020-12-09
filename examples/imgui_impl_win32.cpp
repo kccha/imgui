@@ -53,12 +53,14 @@
 //  2016-11-12: Inputs: Only call Win32 ::SetCursor(NULL) when io.MouseDrawCursor is set.
 
 // Win32 Data
+#ifndef IMGUI_UBER_GLOBAL
 static HWND                 g_hWnd = NULL;
 static INT64                g_Time = 0;
 static INT64                g_TicksPerSecond = 0;
 static ImGuiMouseCursor     g_LastMouseCursor = ImGuiMouseCursor_COUNT;
 static bool                 g_HasGamepad = false;
 static bool                 g_WantUpdateHasGamepad = true;
+#endif
 
 // Functions
 bool    ImGui_ImplWin32_Init(void* hwnd)
@@ -271,7 +273,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 #endif
 IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (ImGui::GetCurrentContext() == NULL)
+	
+    if (gImGuiUber == NULL || ImGui::GetCurrentContext() == NULL)
         return 0;
 
     ImGuiIO& io = ImGui::GetIO();
