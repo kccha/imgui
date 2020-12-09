@@ -1522,14 +1522,14 @@ static void ShowDemoWindowWidgets()
         ImS64 LLONG_MAX = 9223372036854775807LL;
         ImU64 ULLONG_MAX = (2ULL * 9223372036854775807LL + 1);
         #endif
-        const char    s8_zero  = 0,   s8_one  = 1,   s8_fifty  = 50, s8_min  = -128,        s8_max = 127;
-        const ImU8    u8_zero  = 0,   u8_one  = 1,   u8_fifty  = 50, u8_min  = 0,           u8_max = 255;
-        const short   s16_zero = 0,   s16_one = 1,   s16_fifty = 50, s16_min = -32768,      s16_max = 32767;
-        const ImU16   u16_zero = 0,   u16_one = 1,   u16_fifty = 50, u16_min = 0,           u16_max = 65535;
-        const ImS32   s32_zero = 0,   s32_one = 1,   s32_fifty = 50, s32_min = INT_MIN/2,   s32_max = INT_MAX/2,    s32_hi_a = INT_MAX/2 - 100,    s32_hi_b = INT_MAX/2;
-        const ImU32   u32_zero = 0,   u32_one = 1,   u32_fifty = 50, u32_min = 0,           u32_max = UINT_MAX/2,   u32_hi_a = UINT_MAX/2 - 100,   u32_hi_b = UINT_MAX/2;
-        const ImS64   s64_zero = 0,   s64_one = 1,   s64_fifty = 50, s64_min = LLONG_MIN/2, s64_max = LLONG_MAX/2,  s64_hi_a = LLONG_MAX/2 - 100,  s64_hi_b = LLONG_MAX/2;
-        const ImU64   u64_zero = 0,   u64_one = 1,   u64_fifty = 50, u64_min = 0,           u64_max = ULLONG_MAX/2, u64_hi_a = ULLONG_MAX/2 - 100, u64_hi_b = ULLONG_MAX/2;
+        const char    s8_zero  = 0,   s8_one  = 1,   s8_fifty  = 50, s8_MIN  = -128,        s8_MAX = 127;
+        const ImU8    u8_zero  = 0,   u8_one  = 1,   u8_fifty  = 50, u8_MIN  = 0,           u8_MAX = 255;
+        const short   s16_zero = 0,   s16_one = 1,   s16_fifty = 50, s16_MIN = -32768,      s16_MAX = 32767;
+        const ImU16   u16_zero = 0,   u16_one = 1,   u16_fifty = 50, u16_MIN = 0,           u16_MAX = 65535;
+        const ImS32   s32_zero = 0,   s32_one = 1,   s32_fifty = 50, s32_MIN = INT_MIN/2,   s32_MAX = INT_MAX/2,    s32_hi_a = INT_MAX/2 - 100,    s32_hi_b = INT_MAX/2;
+        const ImU32   u32_zero = 0,   u32_one = 1,   u32_fifty = 50, u32_MIN = 0,           u32_MAX = UINT_MAX/2,   u32_hi_a = UINT_MAX/2 - 100,   u32_hi_b = UINT_MAX/2;
+        const ImS64   s64_zero = 0,   s64_one = 1,   s64_fifty = 50, s64_MIN = LLONG_MIN/2, s64_MAX = LLONG_MAX/2,  s64_hi_a = LLONG_MAX/2 - 100,  s64_hi_b = LLONG_MAX/2;
+        const ImU64   u64_zero = 0,   u64_one = 1,   u64_fifty = 50, u64_MIN = 0,           u64_MAX = ULLONG_MAX/2, u64_hi_a = ULLONG_MAX/2 - 100, u64_hi_b = ULLONG_MAX/2;
         const float   f32_zero = 0.f, f32_one = 1.f, f32_lo_a = -10000000000.0f, f32_hi_a = +10000000000.0f;
         const double  f64_zero = 0.,  f64_one = 1.,  f64_lo_a = -1000000000000000.0, f64_hi_a = +1000000000000000.0;
 
@@ -1563,22 +1563,22 @@ static void ShowDemoWindowWidgets()
         ImGui::DragScalar("drag double ^2", ImGuiDataType_Double, &f64_v, 0.0005f, &f64_zero, &f64_one, "0 < %.10f < 1", 2.0f);
 
         ImGui::Text("Sliders");
-        ImGui::SliderScalar("slider s8 full",     ImGuiDataType_S8,     &s8_v,  &s8_min,   &s8_max,   "%d");
-        ImGui::SliderScalar("slider u8 full",     ImGuiDataType_U8,     &u8_v,  &u8_min,   &u8_max,   "%u");
-        ImGui::SliderScalar("slider s16 full",    ImGuiDataType_S16,    &s16_v, &s16_min,  &s16_max,  "%d");
-        ImGui::SliderScalar("slider u16 full",    ImGuiDataType_U16,    &u16_v, &u16_min,  &u16_max,  "%u");
+        ImGui::SliderScalar("slider s8 full",     ImGuiDataType_S8,     &s8_v,  &s8_MIN,   &s8_MAX,   "%d");
+        ImGui::SliderScalar("slider u8 full",     ImGuiDataType_U8,     &u8_v,  &u8_MIN,   &u8_MAX,   "%u");
+        ImGui::SliderScalar("slider s16 full",    ImGuiDataType_S16,    &s16_v, &s16_MIN,  &s16_MAX,  "%d");
+        ImGui::SliderScalar("slider u16 full",    ImGuiDataType_U16,    &u16_v, &u16_MIN,  &u16_MAX,  "%u");
         ImGui::SliderScalar("slider s32 low",     ImGuiDataType_S32,    &s32_v, &s32_zero, &s32_fifty,"%d");
         ImGui::SliderScalar("slider s32 high",    ImGuiDataType_S32,    &s32_v, &s32_hi_a, &s32_hi_b, "%d");
-        ImGui::SliderScalar("slider s32 full",    ImGuiDataType_S32,    &s32_v, &s32_min,  &s32_max,  "%d");
+        ImGui::SliderScalar("slider s32 full",    ImGuiDataType_S32,    &s32_v, &s32_MIN,  &s32_MAX,  "%d");
         ImGui::SliderScalar("slider u32 low",     ImGuiDataType_U32,    &u32_v, &u32_zero, &u32_fifty,"%u");
         ImGui::SliderScalar("slider u32 high",    ImGuiDataType_U32,    &u32_v, &u32_hi_a, &u32_hi_b, "%u");
-        ImGui::SliderScalar("slider u32 full",    ImGuiDataType_U32,    &u32_v, &u32_min,  &u32_max,  "%u");
+        ImGui::SliderScalar("slider u32 full",    ImGuiDataType_U32,    &u32_v, &u32_MIN,  &u32_MAX,  "%u");
         ImGui::SliderScalar("slider s64 low",     ImGuiDataType_S64,    &s64_v, &s64_zero, &s64_fifty,"%I64d");
         ImGui::SliderScalar("slider s64 high",    ImGuiDataType_S64,    &s64_v, &s64_hi_a, &s64_hi_b, "%I64d");
-        ImGui::SliderScalar("slider s64 full",    ImGuiDataType_S64,    &s64_v, &s64_min,  &s64_max,  "%I64d");
+        ImGui::SliderScalar("slider s64 full",    ImGuiDataType_S64,    &s64_v, &s64_MIN,  &s64_MAX,  "%I64d");
         ImGui::SliderScalar("slider u64 low",     ImGuiDataType_U64,    &u64_v, &u64_zero, &u64_fifty,"%I64u ms");
         ImGui::SliderScalar("slider u64 high",    ImGuiDataType_U64,    &u64_v, &u64_hi_a, &u64_hi_b, "%I64u ms");
-        ImGui::SliderScalar("slider u64 full",    ImGuiDataType_U64,    &u64_v, &u64_min,  &u64_max,  "%I64u ms");
+        ImGui::SliderScalar("slider u64 full",    ImGuiDataType_U64,    &u64_v, &u64_MIN,  &u64_MAX,  "%I64u ms");
         ImGui::SliderScalar("slider float low",   ImGuiDataType_Float,  &f32_v, &f32_zero, &f32_one);
         ImGui::SliderScalar("slider float low^2", ImGuiDataType_Float,  &f32_v, &f32_zero, &f32_one,  "%.10f", 2.0f);
         ImGui::SliderScalar("slider float high",  ImGuiDataType_Float,  &f32_v, &f32_lo_a, &f32_hi_a, "%e");

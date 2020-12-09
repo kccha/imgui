@@ -3637,6 +3637,8 @@ void ImGui::UpdateHoveredWindowAndCaptureFlags()
     else
         g.IO.WantCaptureMouse = (mouse_avail_to_imgui && (g.HoveredWindow != NULL || mouse_any_down)) || (g.OpenPopupStack.Size > 0);
 
+		g.IO.IsHoveringOverWindow = (mouse_avail_to_imgui && (g.HoveredWindow != NULL));
+		
     // Update io.WantCaptureKeyboard for the user application (true = dispatch keyboard info to imgui, false = dispatch keyboard info to Dear ImGui + app)
     if (g.WantCaptureKeyboardNextFrame != -1)
         g.IO.WantCaptureKeyboard = (g.WantCaptureKeyboardNextFrame != 0);
