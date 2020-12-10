@@ -81,6 +81,7 @@ Index of this file:
 // Data
 //-------------------------------------------------------------------------
 
+#define FIRST_COLUMN_WIDTH 120.0f
 // Those MIN/MAX values are not define because we need to point to them
 static const signed char    IM_S8_MIN  = -128;
 static const signed char    IM_S8_MAX  = 127;
@@ -1654,9 +1655,16 @@ bool ImGui::Combo(const char* label, int* current_item, bool (*items_getter)(voi
 // Combo box helper allowing to pass an array of strings.
 bool ImGui::Combo(const char* label, int* current_item, const char* const items[], int items_count, int height_in_items)
 {
-    const bool value_changed = Combo(label, current_item, Items_ArrayGetter, (void*)items, items_count, height_in_items);
-    return value_changed;
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, FIRST_COLUMN_WIDTH);
+	ImGui::Text(label);
+	ImGui::NextColumn();
+	PushID(label);
+	const bool value_changed = Combo("", current_item, Items_ArrayGetter, (void*)items, items_count, height_in_items);
+	PopID();
+	return value_changed;
 }
+
 
 // Combo box helper allowing to pass all items in a single string literal holding multiple zero-terminated items "item1\0item2\0"
 bool ImGui::Combo(const char* label, int* current_item, const char* items_separated_by_zeros, int height_in_items)
@@ -2251,12 +2259,27 @@ bool ImGui::DragScalarN(const char* label, ImGuiDataType data_type, void* p_data
 
 bool ImGui::DragFloat(const char* label, float* v, float v_speed, float v_min, float v_max, const char* format, float power)
 {
-    return DragScalar(label, ImGuiDataType_Float, v, v_speed, &v_min, &v_max, format, power);
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, FIRST_COLUMN_WIDTH);
+	ImGui::Text(label);
+	ImGui::NextColumn();
+	bool result = DragScalar("", ImGuiDataType_Float, v, v_speed, &v_min, &v_max, format, power);
+	
+	ImGui::Columns(1);
+	return result;
 }
 
 bool ImGui::DragFloat2(const char* label, float v[2], float v_speed, float v_min, float v_max, const char* format, float power)
 {
-    return DragScalarN(label, ImGuiDataType_Float, v, 2, v_speed, &v_min, &v_max, format, power);
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, FIRST_COLUMN_WIDTH);
+	ImGui::Text(label);
+	ImGui::NextColumn();
+
+	bool result = DragScalarN("", ImGuiDataType_Float, v, 2, v_speed, &v_min, &v_max, format, power);
+	
+	ImGui::Columns(1);
+	return result;
 }
 
 bool ImGui::DragFloat3(const char* label, float v[3], float v_speed, float v_min, float v_max, const char* format, float power)
