@@ -3387,6 +3387,16 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
         b = ImVec2(-0.750f, +0.866f) * r;
         c = ImVec2(-0.750f, -0.866f) * r;
         break;
+    case ImGuiDir_All:
+        {   
+            ImVec2 topRight = ImVec2(+0.750f, +0.750f) * r;
+            ImVec2 botRight = ImVec2(+0.750f, -0.750f) * r;
+            ImVec2 topLeft = ImVec2(-0.750f, +0.750f) * r;
+            ImVec2 botLeft = ImVec2(-0.750f, -0.750f) * r;
+            draw_list->AddTriangleFilled(center + botRight, center + topRight, center + topLeft, col);
+            draw_list->AddTriangleFilled(center + topLeft, center + botLeft, center + botRight, col);
+        }
+        return;
     case ImGuiDir_None:
     case ImGuiDir_COUNT:
         IM_ASSERT(0);

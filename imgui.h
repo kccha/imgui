@@ -1020,6 +1020,9 @@ enum ImGuiDir_
     ImGuiDir_Right   = 1,
     ImGuiDir_Up      = 2,
     ImGuiDir_Down    = 3,
+    // KCC: #Arrow
+    ImGuiDir_All     = 4,
+    // KCC_END
     ImGuiDir_COUNT
 };
 
